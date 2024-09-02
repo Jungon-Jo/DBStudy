@@ -1,0 +1,128 @@
+
+	DB(Data Base) : 자료를 저장(영구적)/정형, 비정형 데이터
+		- 관계형 데이터 베이스(정형 데이터의 일환/프로그램 간 데이터 이동이 용이해 데이터 관리에 효율적이다.)
+			(oracle(유료), Mysql(유로/무료), Maria(무료), Mssql(유료))
+			저장할 자료(고객의 정보)/관계형 데이터 베이스는 표를 만들어서 데이터를 저장한다.
+
+			번호	이름	나이	주소	성별
+			1	홍길동	37	수원	남
+			2	김길수	25	서울	남
+			3	홍길순	34	대전	녀
+			3	박기수	34	부산	남 -> 무결성 위배(데이터의 신뢰성이 깨졌다)
+
+		- DB를 할줄아느냐? -> 관계형 데이터 베이스를 활용해 ~~~을 한 경험이 있습니다. 도구로는 oracle을 사용하였습니다.
+	
+
+
+
+	관계형 데이터베이스 용어
+		- relation(데이터를 저장할 테이블을 만들겠다.)
+		  : 행(row/저장할 대상의 자료)과 열(column/속성 지정(숫자, 문자 등), 제약 조건 지정)로 구성
+		    (제약 조건 : not null/반드시 입력값 필요, check/해당 값을 확인, unique/중복성 검사, key/... 등)
+		  : 데이터를 더하거나 빼야하는 경우 속성을 지정하는것이 좋고, 필요없는 경우 문자 속성을 사용해도 무관하다.
+
+
+
+
+	Ex)홈쇼핑 재고 관리(개념적 모델링 : 이런 테이블을 만들거다)
+	relation 이름 : goods
+	column : 번호(unique 속성 사용), 이름, 설명, 가격, ...
+
+	번호	이름	설명	가격	-> row에 포함되지 않는다.
+	b1	볼펜	~~	1,000
+	b2	볼펜	~~	2,000
+
+	* unique : row에 고유의 값을 부여함으로써 해당 값을 불러올때 중복을 피할 수 있다.
+	* column을 만든다는 것은 table을 만든다는 의미
+
+
+
+
+	Creat table Information of Customer (
+		번호 number(자료형 type) unique key,
+		이름 varchar2(6/6byte까지 저장)(문자형 type/한글 2byte, 숫자 및 영어 1byte) not null,
+		나이 number(2) default 1, -> default 1은 제약 조건이 아니라는 의견이 더 많다.
+		주소 varchar2(50),	-> column이 4개라는 의미
+	);
+
+
+
+	
+	설치방법
+	0. 시작전 로그~~~ -> 예
+	1. 보안 갱신 -> 체크 해제
+	2. 다음
+	3. 다음
+	4. 다음
+	5. 전역 데이터베이스 이름(비밀번호) 반드시 기억!!(orcl/11111111)
+	6. 완료
+	7. SQL Plus 접속
+	8. 사용자명 입력 : system
+	   비밀번호 입력 : 11111111(화면상 출력되지 않는다)
+	9. 다음에 접속됨 : ~~~~ -> 정상 작동함을 의미
+
+
+
+
+	- 명령어
+		테이블 만들기 : create table	(테이블 명)();
+		만들어진 테이블 확인 : desc (테이블 명);
+		레코드 선택 : select * from (테이블 명); -> select * (모두 선택)
+		자료 입력 : insert into (테이블 명) values(1, 'kk'); -> (1, 'kk') (입력할 내용)
+		콘솔 창 비우기 : cl scr
+		테이블 명 변경 : alter table (origin 테이블 명) rename to (change 테이블 명);
+		행 전체 삭제 : delete from (테이블 명);
+		column 속성 및 제약 내용 수정 : alter table (테이블 명) modify (이름 속성 제약조건);
+		column 출력물 합쳐서 보기 : select concat(col1, col2) as (합쳐진 col의 이름) from (테이블 명);
+		
+
+
+
+	- 테이블 명세서(개념적 데이터)
+		: 테이블 명
+		: 컬럼
+		: 컬럼 의미
+		: 속성
+		: 제약 조건
+
+
+
+
+	- 연습문제
+
+	SQL> create table member00 (
+	  2  empno number (4) unique,
+	  3  ename varchar2(10) not null,
+	  4  sal number(5) check (sal between 500 and 5000),
+	  5  gender varchar2(1) check (gender in ('M','F')),
+	  6  epoint number(3) default 1
+	  7  );
+	
+	테이블이 생성되었습니다.
+	
+	SQL> desc member00;
+	 이름                                      널?      유형
+	 ----------------------------------------- -------- ----------------------------
+	 EMPNO                                              NUMBER(4)
+	 ENAME                                     NOT NULL VARCHAR2(10)
+	 SAL                                                NUMBER(5)
+	 GENDER                                             VARCHAR2(1)
+	 EPOINT                                             NUMBER(3)
+	
+	SQL> insert into member00 values (1, 'hong', 600, 'M', 10);
+	
+	1 개의 행이 만들어졌습니다.
+	
+	SQL> insert into member00 values (2, 'lee', 900, 'F', default);
+	
+	1 개의 행이 만들어졌습니다.
+	
+	SQL> select * from member00;
+	
+	     EMPNO ENAME             SAL G     EPOINT	-> G 잘려서 출력된거다.
+	---------- ---------- ---------- - ----------
+	         1 hong              600 M         10
+	         2 lee               900 F          1
+
+
+

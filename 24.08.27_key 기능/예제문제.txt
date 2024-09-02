@@ -1,0 +1,24 @@
+create table memberTable (
+id varchar2(8),
+name varchar2(10),
+tel varchar2(13),
+constraint pk_id primary key (id)
+);
+
+create table memberTable (
+id varchar2(8) primary key,
+name varchar2(10),
+tel varchar2(13)
+);
+
+create table carTable (
+carnum varchar2(4),
+id varchar2(8),
+constraint fk_id foreign key (id) references memberTable (id)
+);
+
+create table carTable (
+carnum varchar2(4),
+id varchar2(8),
+foreign key (id) references memberTable (id)
+);

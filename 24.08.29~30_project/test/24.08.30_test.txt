@@ -1,0 +1,34 @@
+create table test2 (
+id varchar2(10)unique,
+pw varchar2(10) not null,
+name varchar2(6),
+point number(5,2)
+);
+
+insert into test2 values ('12121212', '21212121', '홍길동', 250.25);
+
+select * from test2 where id='12121212';
+
+
+create table test3 (
+id varchar2(10),
+pw varchar2(10) not null,
+name varchar2(6) not null, 
+join date default sysdate,
+constraint pk_test3_id primary key (id)
+);
+
+
+create table mmm (
+no number(3),
+name varchar2(10),
+gender varchar2(1) check (gender in ('m', 'f')),
+constraint pk_mmm_no primary key (no)
+);
+
+desc mmm;
+
+insert into mmm values (111, '홍길동', 'm');
+insert into mmm values (222, '홍길순', 'f');
+
+select * from mmm;

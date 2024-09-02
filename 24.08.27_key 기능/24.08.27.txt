@@ -1,0 +1,56 @@
+		
+	중요!!!! -> query는 속도가 빨라야 한다. 속도는 index로 해결할 수 있다. index는 select(read)의 속도를 향상시킨다.  
+
+	row(CRUD)
+	C : row insert
+	R : row select
+	U : row update
+	D : row delete
+
+	예시)게시판 제작(view기능 : html, CSS, js)
+	- 글쓰기 : C
+	- 글수정 : U
+	- 글삭제 : D
+	- 검색 : R
+	- 전체보기 : R
+	- 좋아요(누르기) : C
+	- 추천 : C
+
+	DB - server(java) - front(html, CSS, js)
+
+	key : column에 부여하는 기능
+	      (제약 조건을 거는것과는 다른의미인 것을 이해해야 한다.)
+	      (primary, foreign key의 이름을 지정해주기 위해서는 constraint를 사용한다.)
+	      - 기본키 (해당 column 속성 옆에 primary key를 입력해준다, parent relation)
+		: 튜플(row)을 유일하게 식별
+		: index(색인/검색속도 향상)를 형성하여 저장/index가 너무 많아지면 오히려 속도가 느려질 수 있다.(테이블 당 하나가 적당하다.)
+		: null 불가(not null 제약 조건을 포함하고 있다는 의미)
+
+		member
+		이름	주소	전화번호
+		홍길동	서울	1111
+		일지매	서울	1111
+		홍길동	수원	2222
+
+		-> 갱신(U, row update) 이상 현상이 발생할 수 있다.(튜플을 유일하게 식별하지 못하기 때문이다.)
+		-> 삭제(D, row delete) 이상 현상이 발생할 수 있다.(튜플을 유일하게 식별하지 못하기 때문이다.)
+
+
+	      - 외래키(column(외래키) to column(참조 대상), child relation)
+		회사는 자동차를 등록한다. 한 사람이 여러대를 등록한다.
+		enrollCar
+		ID	이름	전화번호	차량번호
+		a	홍	1111	1
+		a	홍	1111	2
+
+		-> 차량 번호에 P.K를 사용하지 않는 이유 : ID, 이름, 전화번호 수정이 불가능하다.
+		-> 이상 현상 문제 해결 법(ID, 이름, 전화번호가 중복된다/P.K를 부여할 수 없다)
+		   1. 유일성
+		   2. 데이터의 중복 최소화
+
+		ID(P.K)	이름	전화번호		차량번호	ID(외래키, unique할 필요는 없다)
+		a	홍	1111		1	a
+		a	홍	1111		2	a
+
+		-> 외래키는 P.K를 참조한다.
+		-> 테이블을 쪼갠다 : 정규화를 진행한다

@@ -1,0 +1,20 @@
+
+	DB 환경 구축	
+
+	DBMS(Data Base Management System)
+	- Oracle 11g version 사용(sql plus, oracle에 접속하기 위해 사용)
+	- 현재 오라클은 local host(내 컴퓨터)에 저장
+	- 내 컴퓨터의 주소 = ip(절대 중복 될 수 없다.)/휴먼교육센터
+	- 프로그램 주소 = port(통신할 수 있는 프로그램은 모두 port 넘버를 가지고 있다.)/강의실 201호
+	- 전역 데이터 변수 = orcl(orcl이라는 땅덩어리에 DB를 구축)
+
+	Oracle 접속 툴
+	1. sql developer
+	2. DBver
+
+	sql developer → sql plus (트랜잭션, tranjection/작업이 완료되었다고 바로 보이는 것이 아닌 작업을 완료했음을 입력해주어야 한다.)
+	각각 별개로 2명의 접속자가 발생한것으로 오라클은 인식
+	sql developer 에서 작성된 것이 sql plus에서 보이지 않는다면, 아직 DB에 인식되지 않았음을 의미
+	commit; → 작업을 완료했음을 알려주는 명령어
+	트렌잭션 중이야 → 아직 생각중이야
+	commit → 말로 설명

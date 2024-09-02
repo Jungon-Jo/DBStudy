@@ -1,0 +1,150 @@
+00. 공통 테이블
+고객관리
+고객은 아이디와 이름, 성별, 포인트로 구성된다.
+아이디는 8글자이며, 중복된 아이디는 사용할 수 없다.
+이름은 한글로 최대 5글자 이며 성별은 남과 여로 저장한다.
+포인트는 최대 9999.99까지 저장할 수 있다.
+
+create table customerManagement (
+id varchar2(8) not null,
+name varchar2(10),
+gender varchar2(2) check (gender in ('남', '여')),
+point number(6, 2) check (0 <= point and point < 10000),
+constraint id_pk primary key (id)
+);
+
+insert into customerManagement values ('1111', '가나다', '남', 9988.22);
+insert into customerManagement values ('2222', '라마바', '여', 1234.56);
+insert into customerManagement values ('3333', '사아자', '남', 2345.67);
+insert into customerManagement values ('4444', '차카파', '여', 3456.78);
+
+01. 시나리오 1
+고객은 출석도장을 찍을 수 있다.
+출석도장은 날짜를 저장한다.
+고객은 하루에 여러번 출석도장을 찍을 수 있다. 
+
+create table customerStamp (
+id varchar2(8),
+stampDate date default sysdate,
+stamp varchar2(1) default 'O',
+constraint id_fk foreign key (id) references customerManagement (id)
+);
+
+insert into customerStamp values ('1111', sysdate, default);
+insert into customerStamp values ('2222', sysdate, default);
+insert into customerStamp values ('3333', sysdate, default);
+insert into customerStamp values ('4444', sysdate, default);
+
+
+02. 시나리오 2
+고객은 이벤트에 참여 할 수 있다. 
+이벤트는 별도의 테이블에 저장한다.
+이벤트 번호는 숫자3개의 조합이다. 
+이벤트 번호와 이벤트 이름과 날짜를 저장한다.
+
+create table customerEvent (
+eventNum number(3),
+eventName varchar2(10),
+eventDate date default sysdate,
+constraint eventNum_pk primary key (eventNum)
+);
+
+insert into customerEvent values ('123', 'Happy', sysdate);
+insert into customerEvent values ('234', 'Birth', sysdate);
+insert into customerEvent values ('345', 'Day', sysdate);
+insert into customerEvent values ('456', 'ToYou', sysdate);
+
+
+02. 시나리오 2_1
+고객만 이벤트에 참여 가능하고
+이벤트는 현재 계획된 이벤트만 신청이 가능하다.
+create table eventApply (
+id varchar2(8),
+eventNum number(3),
+constraint idEvent_fk foreign key (id) references customerManagement (id),
+constraint eventNum_fk foreign key (eventNum) references customerEvent (eventNum)
+);
+
+insert into eventApply values ('1111', 123);
+insert into eventApply values ('1111', 234);
+insert into eventApply values ('2222', 123);
+insert into eventApply values ('3333', 123);
+
+
+
+03. 구축된 데이터 베이스 분석하기 
+    제출방법 : 1번부터 끝까지, 쿼리 실행 화면, 쿼리 결과 분석 내용을 1번 파워포인트 뒤에 첨부.
+
+create table stu(
+id varchar2(3),
+name varchar2(6),
+addr varchar2(6),
+primary key(id)
+);
+
+create table sub(
+scode varchar2(3) primary key,
+sname varchar2(6),
+str varchar2(6)
+);
+
+---- 외래키 제약조건
+create table sugang(
+userid varchar2(3),
+subcode varchar2(3),
+constraint sugang_fk_userid  foreign key(userid) references stu(id)
+on delete set null,
+constraint sugang_fk_subcode foreign key(subcode) references sub(scode)
+on delete cascade
+);
+//부모릴레이션에 참조하고 있는 id가 삭제되면 자식릴레이션 외래키 속성이 null
+//부모릴레이션에 참조하고 있는 scode가 삭제되면 자식릴레이션 튜플도 삭제
+
+
+문제
+다음 문제에 가능, 또는 불가능을 적으시고 불가능인 경우는 어떤 무결성 조건을 위배하는지.해결할 수 있는 방법을 서술
+1. aaa, 홍길동, 수원 이라는 학생이 등록하였다.
+2. bbb, 일지매, 서울 이라는 학생이 등록하였다.
+3. aaa, 아저씨, 대전 이라는 학생이 등록하였다.
+4. ccc, 오징어,서울특별시라는 학생이 등록하였다.
+5. c01, 오라클,김길수 라는 과목을 등록하시오.
+6. c02, 자바,김아무개라는 과목을 등록하시오.
+7. c02,객체언어, 홍길동 이라는 과목을 등록하시오.
+8. c03, html, 이길동 이라는 과목을 등록하시오.
+9. c04, js, 김자바라는 과목을 등록하시오.
+10. 아이디 aaa, 과목코드 c05를 등록하시오.
+11. 아이디 aaa, 과목코드 c01을 등록하시오.
+12. 아이다 aaa, 과목코드 c03을 등록하시오.
+13. 아이디 bbb, 과목코드 c01를 등록하시오
+14. 홍길동의 이름을 이길동으로 변경하시오.
+15. 오라클 선생님의 이름을 김오라로 변경하시오.
+16. bbb가 신청한 c01을 c04로 변경하시오.
+17. aaa가 신청한 html과목을 철회하시오.
+18. 홍길동 학생을 삭제하시고 수강신청 테이블을 확인하시오.
+19. 김자바 과목을 삭제하시고 수강신청 테이블을 확인하시오.
+20. 아이디 bbb, 과목코드 c01를 등록하시오
+
+insert into stu values('aaa', '홍길동', '수원');
+insert into stu values('bbb', '일지매', '서울');
+insert into stu values('aaa', '아저씨', '대전');
+insert into stu values('ccc', '오징어', '서울특별시');
+
+insert into sub values('c01', '오라클', '김길수');
+insert into sub values('c02', '자바', '김아무개');
+insert into sub values('c03', '객체언어', '홍길동');
+insert into sub values('c04', 'html', '이길동');
+insert into sub values('c05', 'js', '김자바');
+
+insert into sugang values('aaa', 'c05');
+insert into sugang values('aaa', 'c01');
+insert into sugang values('aaa', 'c03');
+insert into sugang values('bbb', 'c01');
+ 
+update stu set name='이길동' where name='홍길동';
+update sub set str='오라클' where str='김오라';
+update sugang set subcode='c04' where userid='bbb';
+
+delete from sugang where userid='홍길동' and subcode='c04';
+delete from stu where name='홍길동';
+delete from sub where str='김자바';
+insert into sugang values('bbb', 'c01');

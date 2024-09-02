@@ -1,0 +1,20 @@
+dro
+	명령어
+
+	테이블 만들기 : create table	(테이블 명)();
+	만들어진 테이블 확인 : desc (테이블 명);
+	레코드 선택 : select * from (테이블 명); -> select * (모두 선택)
+	자료 입력 : insert into (테이블 명) values(1, 'kk'); -> (1, 'kk') (입력할 내용)
+	콘솔 창 비우기 : cl scr
+	테이블 명 변경 : alter table (origin 테이블 명) rename to (change 테이블 명);
+	행 전체 삭제 : delete from (테이블 명);
+	column 속성 및 제약 내용 수정 : alter table (테이블 명) modify (이름 속성 제약조건);
+	column 출력물 합쳐서 보기 : select concat(col1, col2) as (합쳐진 col의 이름) from (테이블 명);
+	primary key 입력 : (column명) (속성) primary key,
+		          constraint (primary key 이름) primary key ((primary key로 설정해줄 column 명),
+	foreign key 입력 : foreign key ((foreign key로 설정해줄 column 명) references (참조 할 테이블 명) ((primary key가 설정 된 column 명)),
+			  constraint (foreign key 이름) foreign key ((foreign key로 설정해줄 column 명) references (참조 할 테이블 명) ((primary key가 설정 된 column 명)),
+	특정 부분만 적용 시 : (CRUD)where (column 명)='(바꾸고자하는 내용)';
+	테이블 행 전체 사이즈 조절 : set linesize (숫자);
+	한 페이지에 출력된 행 개수 : set pagesize (숫자);
+	테이블 특정 행 사이즈 조절 : column (컬럼 명) for a(사이즈);

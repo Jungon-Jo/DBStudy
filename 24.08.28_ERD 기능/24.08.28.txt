@@ -1,0 +1,71 @@
+
+	1. 개념적 설계(ERD) → 2. 논리적 설계(테이블 명세서) → 3. 물리적 설계(쿼리문)
+
+
+	- ERD : 데이터 베이스를 구축하기위한 개념적 설계 단계로, 각 개체들을 설정하고 개체들의 속성, 개체간의 관계를 도식화하는것을 의미한다.
+		테이블을 만드는 과정으로, 테이블이라는 개념이 존재하지 않는다(테이블은 논리적 설계부터 작성이 들어가는것이다)
+	E : entity 개체, 독립적으로 존재할 수 있는 대상(네모로 표시/동그라미는 attribute를 뜻한다)
+	R : relation 관계, 개체간의 관계성을 가질 수 있는 것(마름모로 표시, 1:1, 1:N, N:M)
+	D : diagram
+
+	개체 : 고객
+	속성 : id, name
+
+	개체 : 출석대장
+	속성 : time
+
+	고객과 출석대장 간의 관계성 : 출석
+
+	고객 +-- 출석 -<- 출석대장	(고객이 반드시 한번은 출석을 해야한다.)
+	고객 +-- 출석 -ㅇ<- 출석대장	(동그라미 → 버블, 고객이 반드시 출석을 하지 않아도 된다.)
+
+	1:1 의 관계일 때는 테이블을 하나만 만들어도 된다.(중복되는 데이터가 없음을 의미)
+	1:N 의 관계일 때는 두개의 테이블을 가지며, 1인쪽에 기본키를 부여하고 N이 외래키를 가지며 부모의 테이블을 참조한다.
+	N:M 의 관계일 때는 세개 이상의 테이블을 가지며, 개체들이 각각의 테이블을 가지고 기본키를 부여받는다.
+	    관계도 하나의 테이블을 가지게 되며, 개체를 참조하는 외래키를 부여받게 된다.
+
+	예시 문제)
+	고객은 아이디와 이름, 성별, 포인트로 구성된다.
+	아이디는 8글자이며, 중복된 아이디는 사용할 수 없다.
+	이름은 한글로 최대 5글자 이며 성별은 남과 여로 저장한다.
+	포인트는 최대 9999.99까지 저장할 수 있다.
+
+	고객은 이벤트에 참여 할 수 있다. 
+	이벤트는 별도의 테이블에 저장한다.
+	이벤트 번호는 숫자3개의 조합이다. 
+	이벤트 번호와 이벤트 이름과 날짜를 저장한다.
+
+	고객이 여러 이벤트 신청이 가능하며,
+	한 이벤트에 여러 고객이 참여 가능하다. 
+	(고객이 이벤트를 선택하지 않거나, 이벤트에 어떤 고객도 참여하지 않아도 문제없다.)
+	이벤트 신청 시 신청 사연도 함께 입력한다.
+
+	create table customer (
+	id varchar2(8) not null,
+	name varchar2(10),
+	gender varchar2(2) check(gender in ('남', '여')),
+	point number(6,2),
+	constraint id_pk primary key (id)
+	);
+
+	create table event (
+	eventNum varchar2(3) not null,
+	eventName varchar2(10),
+	eventDate date default sysdate,
+	constraint eventNum_pk primary key (eventNum)
+	);
+
+	create table apply(
+	appNum varchar2(4) not null,
+	customerId varchar2(8),
+	eventNum varchar2(3),
+	appSto varchar2(100),
+	constraint appNum_pk primary key (appNum),
+	constraint customerId_fk foreign key (customerId) references customer (id),
+	constraint eventNum_fk foreign key (eventNum) references event (eventNum)
+	);
+
+	부모키를 삭제했을 때, 자식키에 해당하는 데이터를 연쇄적으로 삭제하는법
+	on delete cascade(cascade, 외래키 제약조건),
+	부모키를 삭제했을 때, 자식키에 해당하는 데이터 중 부모키와 관련된 데이터만 삭제하는 법(외래키에 해당값을 null로 바꾼다.)
+	on delete set null(set null, 외래키 제약조건),
