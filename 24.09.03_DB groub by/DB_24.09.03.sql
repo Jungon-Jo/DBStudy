@@ -31,5 +31,21 @@ select grade, count(*) student from users group by grade having count(*)>=3;
 // 학년 그룹 평균이 전체 평균보다 높은 그룹의 평균만 출력하시오.
 select grade, avg(point) pointAverage from users group by grade having avg(point)>=(select avg(point) from users);
 // select grade, avg(point) pointAverage from users group by grade having avg(point)>= 본쿼리
-// (select avg(point) from users) 서브쿼리(함수처럼 리턴값을 사용하고 싶을 때 사용하며, ()를 사용하여 select절을 넣어준다.)
+// (select avg(point) from users) 서브쿼리(결과값이 전체 평균으로 결과값을 본쿼리 실행에 사용한다.)
+// 서브쿼리는 ()안에 select절을 사용하여 결과값을 활용하는것을 의미한다.(본쿼리의 조건으로 활용이 가능) - where, having
 // 서브쿼리가 먼저 계산 된 후 본쿼리가 실행된다.
+// 서브쿼리는 본쿼리 안에 함수처럼 리턴값을 사용하고 싶을 때 사용하며, ()를 사용하여 select절을 넣어준다.
+// 본쿼리의 테이블로 활용가능 - from
+// 본쿼리의 원하는 컬럼에서 활용 가능 - select
+
+// 정리
+// select에서 서브쿼리를 활용하면(단일값을 리턴) > 스칼라 서브쿼리(속도가 느려질 수 있어 조심해야 한다.)
+// from에서 서브쿼리를 활용하면(테이블을 리턴) > 인라인뷰 서브쿼리
+// 인라인뷰 서브쿼리
+select m.name, m.addr from (select * from users) m where m.grade=3;
+// users 테이블 가상본(램으로 끌고온다)을 만들고 m이라는 이름을 붙인다.
+// 가상 테이블 m은 현재 쿼리에서만 적용되며, 다른 select절에서는 사용이 불가능하다.
+
+// 최종 문제
+// 그룹별 가장 높은 점수를 획득한 사람의 이름과 점수는?
+select name, point from users where point=(select max(point) from users);
