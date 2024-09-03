@@ -66,7 +66,8 @@ select no, name, addr, point from users order by point;
 
 // 10) 학년을 오름차순으로 정렬하시오.(단, 학년이 동일 할 경우 포인트가 높은 사람이 먼저 출력됩니다.)
 select * from users order by grade asc, point desc;
-// 우선순위가 높은 정렬을 앞에 배치시킨다.
+-- 우선순위가 높은 정렬을 앞에 배치시킨다.
+-- 정렬할 때 동일 값일 경우 ,를 사용하여 다음 정렬을 정의할 수 있다. 
 
 // 11) 현재의 점수에서 -10을 보정한 결과 80점 이상인 사람의 이름과 점수, 보정한 결과 점수를 출력하세요.
 select name, point, point-10 revise from users where point-10>=80;
