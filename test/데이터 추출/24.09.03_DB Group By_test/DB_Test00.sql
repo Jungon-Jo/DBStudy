@@ -95,7 +95,7 @@ from muser;
 // 15. time은 근무시간, 근무시간이 31이상인 사람의 이름을 출력하시오.
 select name from muser where time>=31;
 
-// 16. 짝수년도에 태어난 사람들의 이름을 모두 출력하싱.
+// 16. 짝수년도에 태어난 사람들의 이름을 모두 출력하시오.
 select name, reg_num from muser where mod(substr(reg_num,1,2),2)=0;
 
 // 17. 직원들의 생년월일을 출력하시오. (출력 형태는 이름과 생년월일(97년1월2일))
@@ -142,5 +142,8 @@ select time, count(*) over(partition by time order by time) 인원수 from muser;
 select grade, max(salary) over(partition by grade order by grade) 최고급여 from muser;
 
 // #6) 구글검색하여 오라클 함수 정리
+// 연산함수
+-- count(*) : 튜플의 갯수를 추출
+-- sum([컬럼명]) : 컬럼명에 해당하는 값의 합
 -- like : like '[조건으로 활용될 문자열]%' or '%[조건으로 활용될 문자열]'/특정 문자열을 포함한 문자열을 찾고자 할 때 사용한다.
 -- is null : [컬럼명] is null/조건절에서 null값인 경우를 지정할 때 사용하며, =null은 사용할 수 없다.
