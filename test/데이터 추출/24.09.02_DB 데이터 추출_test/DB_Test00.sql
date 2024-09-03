@@ -29,6 +29,9 @@ select name, point, jumin from users;
 
 // 2) 80점 이상의 사람의 이름과 주소, 점수를 검색하시오.
 select name, addr, point from users where point>=80;
+-- users 테이블에서 point가 80점 이상인 조건을 가진 사람의 이름과 주소, 점수가 필요하다.
+-- 80점 이상이라는 조건에 부합하는 사람을 찾기위해 where절을 사용하여, point >= 80 인 튜플을 선정하고
+-- 해당 튜플에서 필요한 정보인 이름, 주소, 점수만 출력하기위해 select절에서 필요 컬럼명을 입력해주었다.
 
 // 3) 이름이 kim으로 시작되는 사람의 이름과 주소를 검색하시오.
 select name, addr from users where name like 'kim%';
@@ -39,10 +42,14 @@ select no, name, addr, point+10 point, grade, jumin from users;
 
 // 5) 1학년의 점수를 +1점씩 올려서 출력하세요.
 select no, name, addr, point+1 point, grade, jumin from users where grade=1;
+-- users 테이블에서 1학년의 점수를 1점씩 증가시켜서 출력이 필요하다.
+-- where절을 사용하여 grade=1을 만족하는 튜플을 선정하고 원본 데이터에 영향이 없이 점수를 1점 증가시켜 출력해야 하므로,
+-- select절에서 수식(≠ 함수)을 활용하여 point에 1점을 더한 값을 point라는 컬럼명을 사용하여 데이터를 출력해주었다.
 
 // 6) B등급을 획득한 사람의 이름, 주소, 점수를 출력하세요.(B등급 80점 이상 90점 미만입니다.)
 select name, addr, point from users where point>=80 and point<90;
 // and = 두 조건을 모두 충족시켜라
+-- users
 
 // 7) 쿼리 결과 중 NULL은 실제 입력하지 않은 값입니다.
 //    주소를 입력하지 않은 학생의 이름과 주소, 학년, 점수, 주민번호를 출력하세요.
