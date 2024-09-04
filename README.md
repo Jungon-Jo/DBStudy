@@ -12,7 +12,7 @@
 <p>- R(Relationship) : 관계, 개체간의 관계성을 가질 수 있는 것(마름모로 표시, 1:1, 1:N, N:M 의 관계)</p>
 <p>- D(Diagram) : 표현, 개체와 개체간의 관계성을 시각적으로 표현(관계성을 가진 개체 사이는 선으로 표시하며, 선 위에 과계를 써준다.</p>
 <p>Ex)</p>
-![erd예시](https://github.com/user-attachments/assets/15bcbbc7-5132-4e43-baba-4452ad1325ab)
+<img width="100%" src="https://github.com/user-attachments/assets/15bcbbc7-5132-4e43-baba-4452ad1325ab">
 <p></p>
 <p></p>
 <p></p>
