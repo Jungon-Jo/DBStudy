@@ -3,7 +3,17 @@
 <h3>테이블 관리 용어</h3>
 <h5>relation</h5>
 <h5>attribute</h5>
-<h1>2. 데이터 출력</h1>
+<hr>
+
+<h1>2. CRUD</h1>
+<br>
+<h2>C_데이터 입력</h2>
+<p>insert 절의 정의 : 데이터베이스에 원하는 데이터를 입력</p>
+<h3>기본 사용 코드</h3>
+<p>insert into [table_name] values ([column1], [column2], [column3], ...)</p>
+<br>
+<h2>R_데이터 출력</h2>
+<p>select 절의 정의 : 데이터베이스에 저장된 데이터를 조회(원하는 테이블에서 원하는 튜플 및 컬럼을 선택하여 추출)</p>
 <h3>기본 사용 코드</h3>
 <p>a. select : 화면에 출력과 관련된 코드/count(*), sum([테이블 명]), ...</p>
 <p>b. from : 출력하고자 하는 테이블을 선택할때 사용하는 코드/from [테이블 명]</p>
@@ -12,4 +22,9 @@
 <h3>사용 순서</h3>
 <p>a → b → c or d</p>
 <h3>사고의 흐름</h3>
-<p><strong>b → c → a → d</strong></p>
+<p><strong>b → c → a → group by → d</strong></p>
+<p>	→ b. 어떤 테이블에서 데이터를 가져올꺼야?(from)</p>
+<p> → c. 어떤 조건의 튜플을 가져올꺼야?(where)</p>
+<p>	→ a. 가져온 튜플에서 어떤 정보를 출력할거야?(select)</p>
+<p>	→ d. 이런 배열을 가지고 출력할게(order by)</p>
+
