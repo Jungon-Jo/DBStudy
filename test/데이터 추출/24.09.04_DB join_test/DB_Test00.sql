@@ -43,6 +43,7 @@ select u.name, ci.c_num from users u, carinfo ci where u.id=ci.id;
 
 // 3. 자동차 번호가 7788인 소유자의 이름과 주소를 출력하시오.
 select u.name, u.addr from users u, carinfo ci where u.id=ci.id and ci.c_num='7788';
+select u.name, u.addr from users u, carinfo ci where ci.c_num='7788' and u.id=ci.id;
 
 // 4. 자동차를 소유하지 않은 사람의 이름과 주소를 출력하시오.
 select u.name, u.addr from users u left outer join carinfo ci on u.id=ci.id where ci.c_num is null;
@@ -50,6 +51,7 @@ select u.name, u.addr from users u left outer join carinfo ci on u.id=ci.id wher
 // 5. 회원별 등록한 자동차 수를 출력하시오.
 select u.name, a.차량수 from users u, (select id, count(*) 차량수 from carinfo group by id) a where u.id=a.id;
 -- 서브쿼리로 만들어진 테이블을 from 절에 넣어 만들어진 테이블을 사용
+select u.name, count(ci.id) from users u, carinfo ci where u.id=ci.id group by u.name, ci.id;
 
 // 6. 2대 이상을 소유한 회원의 이름과 소유한 자동차 수를 출력하시오.
 select u.name, a.차량수 from users u, (select id, count(*) 차량수 from carinfo group by id) a where u.id=a.id and a.차량수>=2;
@@ -71,6 +73,9 @@ select c_num from companycar where c_price>=1000;
 
 // 11. 배정된 자동차 중에 회사에서 구매한 자동차가 아닌 자동차 번호를 출력하시오.
 select ci.c_num from carinfo ci left outer join companycar co on ci.c_num=co.c_num where co.c_num is null;
+select ci.*, co.* from carinfo ci left outer join companycar co on ci.c_num=co.c_num where co.c_num is null;
+select ci.c_num from carinfo ci, companycar co where ci.c_num!=co.c_num;
+select ci.*, co.* from carinfo ci left outer join companycar co on ci.c_num=co.c_num;
 
 // 12. 모든 사람의 정보를 출력하시오. 이름, 배정받은 자동차번호, 자동차이름
 select u.name, ci.c_num, co.c_name
