@@ -1,0 +1,8 @@
+
+	Group by
+
+	정의
+	: from → where → group by
+	: 튜플이 선정된 다음(where절 다음) group by가 고려되어야 한다.
+	: 그룹별 통계를 내야할 때 사용
+	: 튜플 선정에는 전혀 영향을 미치지 않느다.
