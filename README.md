@@ -77,9 +77,18 @@ f. join : 2개 이상의 테이블을 논리적으로 합치는 것
 
 			→ 기준 테이블의 모든 튜플을 생성하고 이에 해당되는 대상 테이블의 튜플 값을 가져온다.
 
+			→ 3개 이상의 테이블도 적용 가능
+
+				from [table_name_1] a left/right outer join [table_name_2] b on a.id=b.id
+
+				     [table_name_2] b left/right outer join [table_name_3] c on b.num=c.num;
+ 
+
 			→ left outer join : 왼쪽 테이블 기준
 
 			  right outer join : 오른쪽 테이블 기준
+
+			→ code이 외에 (+)를 활용하여 간소화 하여 사용 가능
 
 ### 사용 순서
 a → b → (c → d → e)
