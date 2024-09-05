@@ -58,19 +58,42 @@ e. order by : 정렬(내림차순, 오름차순 등)이 필요할 때 사용/ord
 
 f. join : 2개 이상의 테이블을 논리적으로 합치는 것
 
+* join의 사용법
+  	1. full join :	select a.name, b.subject, b.point from student a, score b;
+
+			→ 현업에서는 절대 사용해서는 안되는 방법
+
+			→ studentd(n개의 행)의 튜플 하나가 score(m개의 행)의 모든 튜플을 비교(n x m 만큼의 튜플이 만들어진다.)
+
+  	2. inner join :	select a.name, b.subject, b.point from student a, score b where a.id=b.id;
+
+			→ where 절에 조건을 입력하여 참이 되는 경우만 튜플을 생성
+
+			→ 동등 inner join(==), 비동등 inner join(!=)
+  
+  	3. outer join : select a.name, b.subject, b.point from student a left outer join score b on a.id=b.id;
+
+  			→ inner join에서 생성되지 않는 테이블의 튜플까지 생성하는것이 목적
+
+			→ 기준 테이블의 모든 튜플을 생성하고 이에 해당되는 대상 테이블의 튜플 값을 가져온다.
+
+			→ left outer join : 왼쪽 테이블 기준
+
+			  right outer join : 오른쪽 테이블 기준
+
 ### 사용 순서
 a → b → (c → d → e)
 
 ### 사고의 흐름
 <strong>b → c → d → a → e</strong>
 
-	→ b. 어떤 테이블에서 데이터를 가져올꺼야?(from)
+ → b. 어떤 테이블에서 데이터를 가져올꺼야?(from)
  
  → c. 어떤 조건의 튜플을 가져올꺼야?(where)
  
  → d. 어떤 기준으로 그룹을 묶을거야(group by)
  
-	→ a. 가져온 튜플에서 어떤 정보를 출력할거야?(select)
+ → a. 가져온 튜플에서 어떤 정보를 출력할거야?(select)
  
-	→ e. 이런 배열을 가지고 출력할게(order by)
+ → e. 이런 배열을 가지고 출력할게(order by)
 
