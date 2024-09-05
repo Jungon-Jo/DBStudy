@@ -1,6 +1,6 @@
 # DBstudy
 # 1. 테이블 설계
-<h2>테이블 관리 용어</h2>
+ ## 테이블 관리 용어
 <p>relation</p>
 <p>attribute</p>
 <h2>테이블 설계 과정</h2>
