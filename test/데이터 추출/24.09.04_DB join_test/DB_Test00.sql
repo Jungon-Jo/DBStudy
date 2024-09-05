@@ -37,27 +37,48 @@ insert into companycar values ('9900','현다','그랭저',2100);
 -- 위 자료를 회원이 등록한 자동차 정보이다.
 // 1. 회원의 이름과 주소를 출력하시오.
 select name, addr from users;
+-- 이름은 users 주소도 users 테이블에 있다/join이 필요없다.
 
 // 2. 회원의 이름과 소유한 자동차 번호를 출력하시오.
 select u.name, ci.c_num from users u, carinfo ci where u.id=ci.id;
+-- 이름 users; 자동차 번호 carinfo; 회원이 소유한 자동차 : inner join(id)
 
 // 3. 자동차 번호가 7788인 소유자의 이름과 주소를 출력하시오.
+--> 1. 조인을 해서 조건절로 7788인 자동차의 소유자의 정보를 출력 > join
 select u.name, u.addr from users u, carinfo ci where u.id=ci.id and ci.c_num='7788';
+--> 7788소유자의 회원 아이디를 검색 한 후 결과값을 본 쿼리의 조건 > sub query
+select name, addr from users where id=(select id from carinfo where c_num='7788');
+--> 순서가 달라짐
 select u.name, u.addr from users u, carinfo ci where ci.c_num='7788' and u.id=ci.id;
 
 // 4. 자동차를 소유하지 않은 사람의 이름과 주소를 출력하시오.
 select u.name, u.addr from users u left outer join carinfo ci on u.id=ci.id where ci.c_num is null;
+-- 이름과 주소는 users
+-- 자동차를 소유하지 않은 사람이라는 조건 → carinfo 테이블을 참조해봐야하고 inner/outer join 중 선택해서 사용해아한다.
+select u.* from users u left outer join carinfo ci on u.id=ci.id where c_name is null;
+select u.name, u.addr from users u left outer join carinfo ci on u.id=ci.id where c_name is null;
+select u.name, u.addr from users u, carinfo ci where u.id=ci.id(+) and  c_name is null;
 
 // 5. 회원별 등록한 자동차 수를 출력하시오.
 select u.name, a.차량수 from users u, (select id, count(*) 차량수 from carinfo group by id) a where u.id=a.id;
 -- 서브쿼리로 만들어진 테이블을 from 절에 넣어 만들어진 테이블을 사용
-select u.name, count(ci.id) from users u, carinfo ci where u.id=ci.id group by u.name, ci.id;
+-- 회원별 집계, users 만으로는 회원의 자동차를 알 수 없으니 users와 carinfo 테이블을 join한다.
+-- inner join 후 회원으로 그룹을 만들고 카운팅을 집계
+select u.*, ci.* from users u, carinfo ci where u.id=ci.id;
+-- 동명 2인일 수 있으니 u.namedl 아닌 u.id로 집계
+select u.name, count(*) from users u, carinfo ci where u.id=ci.id group by u.name, ci.id;   
+--> 동명 2인 일 수 있으므로 id를 그룹 조건으로 사용
+select u.name, count(*) from users u, carinfo ci where u.id=ci.id group by u.name, ci.id;
+select u.name, count(*) from users u, carinfo ci where u.id=ci.id group by (u.name, ci.id);
+--> 두개의 속성을 하나로 보겠다라는 의미
 
 // 6. 2대 이상을 소유한 회원의 이름과 소유한 자동차 수를 출력하시오.
 select u.name, a.차량수 from users u, (select id, count(*) 차량수 from carinfo group by id) a where u.id=a.id and a.차량수>=2;
 
 // 7. 자동차는 등록되어 있는데 소유자가 없는 자동차 번호를 출력하시오.
 select ci.c_num from users u right outer join carinfo ci on u.id=ci.id where u.name is null;
+--> 팁, 먼저 보는 테이블과 나중에 보는 테이블의 순서를 기억
+--> 먼저 보는 테이블은 carinfo, 두번째로 보는 테이블 users
 
 -- 다음 부터는 3개 테이블을 조인하는 문제입니다.
 -- companycar 회사에서 구매한 자동차를 의미, 
@@ -84,6 +105,11 @@ select u.name, ci.c_num, co.c_name
     left outer join companycar co on ci.c_num=co.c_num;
 -- 3개 이상의 테이블도 outer join이 가능하다.
 -- (left/right) outer join [테이블명] on [데이터의 내용이 공통된 컬럼들의 동등식)
+
+--> 관련 테이블은 users, carinfo, companycar
+--> users.name carinfo.c_num companycar.c_name
+--> 즉 테이블 3개를 join, 순서를 정하고 순서대로 2개씩 join
+--> 먼저 join된 논리 테이블과 다음 테이블 join
 
 
 
