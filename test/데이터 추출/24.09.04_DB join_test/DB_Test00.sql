@@ -111,8 +111,29 @@ select u.name, ci.c_num, co.c_name
 --> 즉 테이블 3개를 join, 순서를 정하고 순서대로 2개씩 join
 --> 먼저 join된 논리 테이블과 다음 테이블 join
 
+// 고찰
+/* 테이블은 데이터 중복을 최소화 하기위해 정규화 되어야 하고,
+*  정규화는 테이블을 분리하는 의미가 있다.
+*  그런데, 서비스를 이용하는 고객입장에서는 2개 이상의 테이블이 join되어야 하는 경우가 있다.
+*  그래서 정규화는 설계자의 입장이고, join은 서비스를 제공하는 입장의 기술이다.
+*  2개 이상의 테이블이 join되어야 하는 서비스는 서비스가 이용될때 마다 db가 join 연선을 계속해야하고 쿼리도 복잡해진다.
+*  → 간단하게 사용 할 방법이 없을까?
+*  해결책은 물리적인 테이블은 유지하되, 조인 결과를 합친 논리적 테이블을 만드는 것이다. 논리적인 테이블은 물리적인 테이블의 데이토로 만들어져있다.
+*  이런 논리적인 테이블을 뷰라고 한다.
+*/
 
+// 12번의 서비스를 제공하기 위해 view 생성(컬럼 명 지정 필수)
+create view all_users as(
+select u.name name, NVL(ci.c_num,'없음') carnum, NVL(co.c_name,'없음') carname
+    from users u
+    left outer join carinfo ci on u.id=ci.id
+    left outer join companycar co on ci.c_num=co.c_num);
 
+select * from all_users;
 
+select name, carnum, carname from all_users;
+
+// view를 통해 이론적으로 insert, delete, update가 가능하지만 테이블 무결성 제약조건에 위배되어서는 안된다.
+// 이런 점에서 view는 조회목적으로 많이 사용한다.
 
 
